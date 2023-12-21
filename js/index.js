@@ -216,11 +216,10 @@ window.addEventListener("DOMContentLoaded", () => {
   // Forms
 
   const forms = document.querySelectorAll("form");
-
   const message = {
-    loading: "Завантаження",
-    success: "Дякую! За декілька хвилин ми Вами зателефонуємо",
-    failure: "Щось пішло не так...",
+    loading: "Загрузка...",
+    success: "Спасибо! Скоро мы с вами свяжемся",
+    failure: "Что-то пошло не так...",
   };
 
   forms.forEach((item) => {
@@ -251,8 +250,6 @@ window.addEventListener("DOMContentLoaded", () => {
       const json = JSON.stringify(object);
 
       request.send(json);
-
-      // request.send(formData);
 
       request.addEventListener("load", () => {
         if (request.status === 200) {

@@ -239,7 +239,7 @@ window.addEventListener("DOMContentLoaded", () => {
       request.open("POST", "server.php");
       request.setRequestHeader(
         "Content-type",
-        "application/json; charset=utf-8"
+        "application/json" //; charset=utf-8
       );
       const formData = new FormData(form);
 

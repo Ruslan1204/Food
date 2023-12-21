@@ -103,10 +103,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const openModalBtn = document.querySelectorAll("[data-modal]");
   const modal = document.querySelector(".modal");
-  const closeModalBtn = document.querySelector("[data-close]");
+  // const closeModalBtn = document.querySelector("[data-close]");
 
   openModalBtn.forEach((btn) => btn.addEventListener("click", openModal));
-  closeModalBtn.addEventListener("click", closeModal);
+  // closeModalBtn.addEventListener("click", closeModal);
 
   function openModal() {
     modal.classList.toggle("show");
@@ -120,7 +120,8 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   modal.addEventListener("click", (evt) => {
-    if (evt.target === modal) {
+    if (evt.target === modal || e.target.getAttribute("data-close") === "") {
+      //!!!!!!!!!!!!!!!!
       closeModal();
     }
   });
@@ -254,15 +255,42 @@ window.addEventListener("DOMContentLoaded", () => {
       request.addEventListener("load", () => {
         if (request.status === 200) {
           console.log(request.response);
-          statusMessage.textContent = message.success;
+          showThanksModal(message.success);
+          // statusMessage.textContent = message.success;
           form.reset();
-          setTimeout(() => {
-            statusMessage.remove();
-          }, 2000);
+
+          // setTimeout(() => {
+          //   statusMessage.remove();
+          // }, 2000);
         } else {
-          statusMessage.textContent = message.failure;
+          // statusMessage.textContent = message.failure;
+          showThanksModal(message.failure);
         }
       });
     });
+  }
+
+  function showThanksModal(message) {
+    const prevModalDialog = document.querySelector(".modal__dialog");
+
+    prevModalDialog.classList.add("hide");
+    openModal();
+
+    const thanksModal = document.createElement("div");
+    thanksModal.classList.add("modal__dialog");
+    thanksModal.innerHTML = `
+      <div class="modal__content">
+        <div class="modal__close" data-close>x</div>
+        <div class="modal__titel">${message}</div>
+      </div>
+      `;
+
+    document.querySelector(".modal").append(thanksModal);
+    setTimeout(() => {
+      thanksModal.remove();
+      prevModalDialog.classList.add("show");
+      prevModalDialog.classList.remove("hide");
+      closeModal();
+    }, 4000);
   }
 });

@@ -218,7 +218,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const forms = document.querySelectorAll("form");
   const message = {
-    loading: "Загрузка...",
+    loading: "img/form/spinner.svg",
     success: "Спасибо! Скоро мы с вами свяжемся",
     failure: "Что-то пошло не так...",
   };
@@ -231,16 +231,19 @@ window.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      let statusMessage = document.createElement("div");
-      statusMessage.classList.add("status");
-      statusMessage.textContent = message.loading;
-      form.appendChild(statusMessage);
+      let statusMessage = document.createElement("img");
+      statusMessage.src = message.loading;
+      statusMessage.style.cssText = `
+                display: block;
+                margin: 0 auto;
+            `;
+      form.insertAdjacentElement("afterend", statusMessage);
 
       const request = new XMLHttpRequest();
       request.open("POST", "server.php");
       request.setRequestHeader(
         "Content-type",
-        "application/json" //; charset=utf-8
+        "application/json; charset=utf-8"
       );
       const formData = new FormData(form);
 
@@ -256,14 +259,9 @@ window.addEventListener("DOMContentLoaded", () => {
         if (request.status === 200) {
           console.log(request.response);
           showThanksModal(message.success);
-          // statusMessage.textContent = message.success;
+          statusMessage.remove();
           form.reset();
-
-          // setTimeout(() => {
-          //   statusMessage.remove();
-          // }, 2000);
         } else {
-          // statusMessage.textContent = message.failure;
           showThanksModal(message.failure);
         }
       });

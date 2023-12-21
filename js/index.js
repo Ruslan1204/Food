@@ -244,13 +244,13 @@ window.addEventListener("DOMContentLoaded", () => {
       // );
       const formData = new FormData(form);
 
-      // const object = {};
-      // formData.forEach(function (value, key) {
-      //   object[key] = value;
-      // });
-      // const json = JSON.stringify(object);
+      const object = {};
+      formData.forEach(function (value, key) {
+        object[key] = value;
+      });
+      const json = JSON.stringify(object);
 
-      // request.send(json);
+      request.send(json);
 
       request.send(formData);
 
@@ -258,10 +258,10 @@ window.addEventListener("DOMContentLoaded", () => {
         if (request.status === 200) {
           console.log(request.response);
           statusMessage.textContent = message.success;
-          // form.reset();
-          // setTimeout(() => {
-          //   statusMessage.remove();
-          // }, 2000);
+          form.reset();
+          setTimeout(() => {
+            statusMessage.remove();
+          }, 2000);
         } else {
           statusMessage.textContent = message.failure;
         }

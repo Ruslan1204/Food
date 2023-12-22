@@ -1,52 +1,61 @@
-window.addEventListener("DOMContentLoaded", function () {
+window.addEventListener("DOMContentLoaded", () => {
   // Tabs
 
-  let tabs = document.querySelectorAll(".tabheader__item"),
-    tabsContent = document.querySelectorAll(".tabcontent"),
-    tabsParent = document.querySelector(".tabheader__items");
+  const ref = {
+    tabs: document.querySelectorAll(".tabheader__item"),
+    tabsContent: document.querySelectorAll(".tabcontent"),
+    tabsPerent: document.querySelector(".tabheader__items"),
+  };
 
-  function hideTabContent() {
-    tabsContent.forEach((item) => {
-      item.classList.add("hide");
+  function hidenTabContent() {
+    ref.tabsContent.forEach((item) => {
+      item.classList.add("hiden");
       item.classList.remove("show", "fade");
     });
 
-    tabs.forEach((item) => {
+    ref.tabs.forEach((item) => {
       item.classList.remove("tabheader__item_active");
     });
   }
 
   function showTabContent(i = 0) {
-    tabsContent[i].classList.add("show", "fade");
-    tabsContent[i].classList.remove("hide");
-    tabs[i].classList.add("tabheader__item_active");
+    ref.tabsContent[i].classList.add("show", "fade");
+    ref.tabsContent[i].classList.remove("hiden");
+
+    ref.tabs[i].classList.add("tabheader__item_active");
   }
 
-  hideTabContent();
+  hidenTabContent();
   showTabContent();
 
-  tabsParent.addEventListener("click", function (event) {
-    const target = event.target;
+  ref.tabsPerent.addEventListener("click", (evt) => {
+    const target = evt.target;
+
     if (target && target.classList.contains("tabheader__item")) {
-      tabs.forEach((item, i) => {
+      ref.tabs.forEach((item, i) => {
         if (target == item) {
-          hideTabContent();
+          hidenTabContent();
           showTabContent(i);
         }
       });
     }
   });
 
-  // Timer
+  //Timer
 
   const deadline = "2023-12-31";
 
   function getTimeRemaining(endtime) {
-    const t = Date.parse(endtime) - Date.parse(new Date()),
-      days = Math.floor(t / (1000 * 60 * 60 * 24)),
-      seconds = Math.floor((t / 1000) % 60),
-      minutes = Math.floor((t / 1000 / 60) % 60),
-      hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+    (let = days), hours, minutes, seconds;
+    const t = Date.parse(endtime) - Date.parse(new Date());
+    if (t <= 0) {
+      (days = 0), (hours = 0), (minutes = 0), (seconds = 0);
+    } else {
+      (days = Math.floor(t / (1000 * 60 * 60 * 24))),
+        (hours = Math.floor((t / (1000 * 60 * 60)) % 24)),
+        (minutes = Math.floor((t / 1000 / 60) % 60)),
+        (seconds = Math.floor((t / 1000) % 60));
+    }
 
     return {
       total: t,
@@ -59,25 +68,24 @@ window.addEventListener("DOMContentLoaded", function () {
 
   function getZero(num) {
     if (num >= 0 && num < 10) {
-      return "0" + num;
+      return `0${num}`;
     } else {
       return num;
     }
   }
 
   function setClock(selector, endtime) {
-    const timer = document.querySelector(selector),
-      days = timer.querySelector("#days"),
-      hours = timer.querySelector("#hours"),
-      minutes = timer.querySelector("#minutes"),
-      seconds = timer.querySelector("#seconds"),
-      timeInterval = setInterval(updateClock, 1000);
+    const timer = document.querySelector(selector);
+    const days = timer.querySelector("#days");
+    const hours = timer.querySelector("#hours");
+    const minutes = timer.querySelector("#minutes");
+    const seconds = timer.querySelector("#seconds");
+    const timeInterval = setInterval(updateClock, 1000);
 
     updateClock();
 
     function updateClock() {
       const t = getTimeRemaining(endtime);
-
       days.innerHTML = getZero(t.days);
       hours.innerHTML = getZero(t.hours);
       minutes.innerHTML = getZero(t.minutes);
@@ -169,15 +177,15 @@ window.addEventListener("DOMContentLoaded", function () {
       }
 
       element.innerHTML = `
-              <img src=${this.src} alt=${this.alt}>
-              <h3 class="menu__item-subtitle">${this.title}</h3>
-              <div class="menu__item-descr">${this.descr}</div>
-              <div class="menu__item-divider"></div>
-              <div class="menu__item-price">
-                  <div class="menu__item-cost">Цена:</div>
-                  <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
-              </div>
-          `;
+                <img src=${this.src} alt=${this.alt}>
+                <h3 class="menu__item-subtitle">${this.title}</h3>
+                <div class="menu__item-descr">${this.descr}</div>
+                <div class="menu__item-divider"></div>
+                <div class="menu__item-price">
+                    <div class="menu__item-cost">Цена:</div>
+                    <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+                </div>
+            `;
       this.parent.append(element);
     }
   }
@@ -229,9 +237,9 @@ window.addEventListener("DOMContentLoaded", function () {
       let statusMessage = document.createElement("img");
       statusMessage.src = message.loading;
       statusMessage.style.cssText = `
-              display: block;
-              margin: 0 auto;
-          `;
+                display: block;
+                margin: 0 auto;
+            `;
       form.insertAdjacentElement("afterend", statusMessage);
 
       const request = new XMLHttpRequest();
@@ -272,11 +280,11 @@ window.addEventListener("DOMContentLoaded", function () {
     const thanksModal = document.createElement("div");
     thanksModal.classList.add("modal__dialog");
     thanksModal.innerHTML = `
-          <div class="modal__content">
-              <div class="modal__close" data-close>×</div>
-              <div class="modal__title">${message}</div>
-          </div>
-      `;
+            <div class="modal__content">
+                <div class="modal__close" data-close>×</div>
+                <div class="modal__title">${message}</div>
+            </div>
+        `;
     document.querySelector(".modal").append(thanksModal);
     setTimeout(() => {
       thanksModal.remove();

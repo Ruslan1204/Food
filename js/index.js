@@ -112,7 +112,7 @@ window.addEventListener("DOMContentLoaded", () => {
     modal.classList.add("hide");
     modal.classList.remove("show");
     document.body.style.overflow = "";
-  }
+  } 
 
   function openModal() {
     modal.classList.add("show");
@@ -122,7 +122,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   modal.addEventListener("click", (e) => {
-    if (e.target === modal || e.target.getAttribute("data-close") == "") {
+    if (e.target === modal || e.target.getAttribute("data-close") === "") {
       closeModal();
     }
   });

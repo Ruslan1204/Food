@@ -112,7 +112,7 @@ window.addEventListener("DOMContentLoaded", () => {
     modal.classList.add("hide");
     modal.classList.remove("show");
     document.body.style.overflow = "";
-  } 
+  }
 
   function openModal() {
     modal.classList.add("show");
@@ -262,8 +262,8 @@ window.addEventListener("DOMContentLoaded", () => {
         if (request.status === 200) {
           console.log(request.response);
           showThanksModal(message.success);
-          statusMessage.remove();
           form.reset();
+          statusMessage.remove();
         } else {
           showThanksModal(message.failure);
         }

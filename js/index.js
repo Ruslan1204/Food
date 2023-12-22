@@ -231,7 +231,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   function postData(form) {
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", (e) => { 
       e.preventDefault();
 
       let statusMessage = document.createElement("img");

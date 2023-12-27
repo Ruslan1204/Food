@@ -199,18 +199,55 @@ window.addEventListener("DOMContentLoaded", () => {
     return await res.json();
   };
 
-  getResource("http://localhost:3000/menu").then((data) => {
-    data.forEach(({ img, altimg, title, descr, price }) => {
+  axios.get("http://localhost:3000/menu").then((data) => {
+    data.data.forEach(({ img, altimg, title, descr, price }) => {
       new MenuCard(
         img,
         altimg,
         title,
         descr,
         price,
-        ".menu.container"
+        ".menu .container"
       ).render();
     });
   });
+
+  // getResource("http://localhost:3000/menu")
+  //   .then((data) => {
+  //   data.forEach(({ img, altimg, title, descr, price }) => {
+  //     new MenuCard(
+  //       img,
+  //       altimg,
+  //       title,
+  //       descr,
+  //       price,
+  //       ".menu .container"
+  //     ).render();
+  //   });
+  // });
+
+  // getResource("http://localhost:3000/menu").then((data) => createData(data));
+
+  // function createData(data) {
+  //   data.forEach(({ img, altimg, title, descr, price }) => {
+  //     const element = document.createElement("div");
+  //     price = price * 27;
+  //     element.classList.add("menu__item");
+
+  //     element.innerHTML = `
+  //             <img src=${img} alt=${altimg}>
+  //               <h3 class="menu__item-subtitle">${title}</h3>
+  //               <div class="menu__item-descr">${descr}</div>
+  //               <div class="menu__item-divider"></div>
+  //               <div class="menu__item-price">
+  //                   <div class="menu__item-cost">Цена:</div>
+  //                   <div class="menu__item-total"><span>${price}</span> грн/день</div>
+  //               </div>
+  //       `;
+
+  //     document.querySelector(".menu .container").append(element);
+  //   });
+  // }
 
   // new MenuCard(
   //   "img/tabs/vegy.jpg",
@@ -354,11 +391,53 @@ window.addEventListener("DOMContentLoaded", () => {
     }, 4000);
   }
 
-  // fetch("http://localhost:3000/menu")
-  //   .then((data) => data.json())
-  //   .then((res) => console.log(res));
-});
+  //Slider
 
-// fetch("https://jsonplaceholder.typicode.com/todos/1")
-// .then((response) => response.json())
-// .then((json) => console.log(json));
+  const slider = document.querySelectorAll(".offer__slide");
+  const prev = document.querySelector(".offer__slider-prev");
+  const next = document.querySelector(".offer__slider-next");
+  const total = document.querySelector("#total");
+  const current = document.querySelector("#current");
+  let slideIndx = 1;
+
+  showSliderContent(slideIndx);
+
+  if (slider.length < 10) {
+    total.textContent = `0${slider.length}`;
+  } else {
+    total.textContent = slider.length;
+  }
+
+  function showSliderContent(n) {
+    if (n > slider.length) {
+      slideIndx = 1;
+    }
+
+    if (n < 1) {
+      slideIndx = slider.length;
+    }
+    slider.forEach((item) => {
+      item.style.display = "none";
+    });
+
+    slider[slideIndx - 1].style.display = "block";
+
+    if (slider.length < 10) {
+      current.textContent = `0${slideIndx}`;
+    } else {
+      current.textContent = slideIndx;
+    }
+  }
+
+  function plusSlides(n) {
+    showSliderContent((slideIndx += n));
+  }
+
+  prev.addEventListener("click", () => {
+    plusSlides(-1);
+  });
+
+  next.addEventListener("click", () => {
+    plusSlides(1);
+  });
+});
